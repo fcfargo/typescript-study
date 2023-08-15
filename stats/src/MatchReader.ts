@@ -9,10 +9,12 @@ interface DataReader {
 }
 
 export class MatchReader {
+  matches: MatchData[] = [];
   constructor(public reader: DataReader) {}
 
-  mapRow(row: string[][]) {
-    row.map((row: string[]): MatchData => {
+  load(): void {
+    this.reader.read();
+    this.matches = this.reader.data.map((row: string[]): MatchData => {
       return [
         dateStringToDate(row[0]),
         row[1],
