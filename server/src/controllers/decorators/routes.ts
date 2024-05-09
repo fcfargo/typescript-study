@@ -1,16 +1,17 @@
 import 'reflect-metadata';
+import { MetadataKeys, Methods } from './interfaces/decorater.enum';
 
 function routeBinder(method: string) {
   return function (path: string) {
     return function (target: any, key: string, desc: PropertyDescriptor): void {
-      Reflect.defineMetadata('method', method, target, key);
-      Reflect.defineMetadata('path', path, target, key);
+      Reflect.defineMetadata(MetadataKeys.METHOD, method, target, key);
+      Reflect.defineMetadata(MetadataKeys.PATH, path, target, key);
     };
   };
 }
 
-export const Get = routeBinder('get');
-export const Post = routeBinder('post');
-export const Put = routeBinder('put');
-export const Delete = routeBinder('delete');
-export const Patch = routeBinder('patch');
+export const Get = routeBinder(Methods.GET);
+export const Post = routeBinder(Methods.POST);
+export const Put = routeBinder(Methods.PUT);
+export const Delete = routeBinder(Methods.DELETE);
+export const Patch = routeBinder(Methods.PATCH);
