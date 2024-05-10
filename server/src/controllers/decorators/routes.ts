@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { MetadataKeys, Methods } from './interfaces/decorater.enum';
+import { MetadataKeys, Methods } from './interfaces/decorators.enum';
 
 function routeBinder(method: string) {
   return function (path: string) {

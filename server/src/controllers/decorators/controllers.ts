@@ -1,6 +1,26 @@
 import 'reflect-metadata';
 import { AppRouter } from '../../AppRouter';
-import { MetadataKeys, Methods } from './interfaces/decorater.enum';
+import { MetadataKeys, Methods } from './interfaces/decorators.enum';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
+
+function bodyValidators(keys: string[]): RequestHandler {
+  return function (req: Request, res: Response, next: NextFunction): void {
+    if (!req.body) {
+      res.status(422).send('Invalid request');
+      return;
+    }
+
+    for (const key in keys) {
+      if (!req.body[key]) {
+        res.status(422).send('Invalid request');
+        return;
+      }
+    }
+
+    next();
+    return;
+  };
+}
 
 export function Controller(routePrefix: string) {
   const router = AppRouter.getInstance();
@@ -8,6 +28,14 @@ export function Controller(routePrefix: string) {
   return function (target: Function) {
     Object.getOwnPropertyNames(target.prototype).forEach((key) => {
       const routeHandler = target.prototype[key];
+
+      const middlewares =
+        Reflect.getMetadata(MetadataKeys.MIDDLEWARE, target.prototype, key) ||
+        [];
+
+      const requestBodyProps =
+        Reflect.getMetadata(MetadataKeys.VALIDATOR, target.prototype, key) ||
+        [];
 
       const path = Reflect.getMetadata(
         MetadataKeys.PATH,
@@ -23,7 +51,9 @@ export function Controller(routePrefix: string) {
 
         const fullRoutePath = `${routePrefix}${path}`;
 
-        router[method](fullRoutePath, routeHandler);
+        const validator = bodyValidators(requestBodyProps);
+
+        router[method](fullRoutePath, ...middlewares, validator, routeHandler);
       }
     });
   };
