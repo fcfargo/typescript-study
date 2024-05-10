@@ -1,4 +1,4 @@
 export * from './controllers';
 export * from './routes';
 export * from './uses';
-export * from './validators';
+export * from './bodyValidator';

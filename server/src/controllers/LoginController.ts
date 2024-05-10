@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Get, Controller, Use } from './decorators';
+import { Get, Controller, Post, BodyValidator } from './decorators';
 
 function requireAuth(req: Request, res: Response, next: NextFunction): void {
   const requestSession = req.session;
@@ -29,5 +29,18 @@ class LoginController {
       <button type="submit">Submit</button>
     </form>
     `);
+  }
+
+  @Post('/login')
+  @BodyValidator('email', 'password')
+  postLogin(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    if (email === 'fcfargo90@gmail.com' && password === '1234') {
+      req.session = { loggedIn: true };
+      res.redirect('/');
+    } else {
+      res.send('Invalid email or password');
+    }
   }
 }
