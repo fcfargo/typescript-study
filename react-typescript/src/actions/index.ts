@@ -8,19 +8,20 @@ export interface Todo {
   completed: boolean;
 }
 
-export interface FetchTodosAction {
+export type FetchTodosAction = {
   type: ActionTypes.FETCH_TODOS;
   payload: Todo[];
-  [extraProps: string]: unknown;
-}
+};
 
-export const fetchTodos = async (dispatch: Dispatch) => {
-  const { data } = await axios.get<Todo[]>(
-    'https://jsonplaceholder.typicode.com/todos'
-  );
+export const fetchTodos = () => {
+  return async (dispatch: Dispatch) => {
+    const { data } = await axios.get<Todo[]>(
+      'https://jsonplaceholder.typicode.com/todos'
+    );
 
-  dispatch<FetchTodosAction>({
-    type: ActionTypes.FETCH_TODOS,
-    payload: data,
-  });
+    dispatch<FetchTodosAction>({
+      type: ActionTypes.FETCH_TODOS,
+      payload: data,
+    });
+  };
 };

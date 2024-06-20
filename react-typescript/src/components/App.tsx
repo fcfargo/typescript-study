@@ -1,13 +1,26 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
+import { StoreState } from '../reducers';
+import { fetchTodos } from '../actions';
+import { Todo } from '../actions';
 
 interface AppProps {
-  color?: string;
+  todos: Todo[];
+  fetchTodos: any;
 }
 
 class App extends Component<AppProps> {
+  componentDidMount() {
+    this.props.fetchTodos();
+  }
+
   render() {
-    return <div>{this.props.color}</div>;
+    return <div>Hello There</div>;
   }
 }
 
-export default App;
+function mapStateToProps({ todos }: StoreState): StoreState {
+  return { todos };
+}
+
+export default connect(mapStateToProps, { fetchTodos })(App);
