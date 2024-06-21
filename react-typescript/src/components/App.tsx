@@ -5,7 +5,8 @@ import { deleteTodos, fetchTodos, Todo } from '../actions';
 
 interface AppProps {
   todos: Todo[];
-  fetchTodos: any;
+  fetchTodos: Function;
+  deleteTodos: typeof deleteTodos;
 }
 
 class App extends Component<AppProps> {
@@ -13,9 +14,17 @@ class App extends Component<AppProps> {
     this.props.fetchTodos();
   };
 
+  onTodoClick = (id: number): void => {
+    this.props.deleteTodos(id);
+  };
+
   renderlist = (): JSX.Element[] => {
     return this.props.todos.map((todo: Todo) => {
-      return <div key={todo.id}>{todo.title}</div>;
+      return (
+        <div onClick={() => this.onTodoClick(todo.id)} key={todo.id}>
+          {todo.title}
+        </div>
+      );
     });
   };
 
