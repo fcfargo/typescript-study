@@ -6,6 +6,6 @@ export interface StoreState {
   todos: Todo[];
 }
 
-export default combineReducers<StoreState>({
+export default combineReducers({
   todos: todosReducer,
 });
