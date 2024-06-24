@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import EventComponent from '../events/EventComponent';
 
 const users = [
   { name: 'Sarah', age: 20 },
@@ -31,7 +32,12 @@ const UserSearch = () => {
   return (
     <div>
       <h3>Find User</h3>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <EventComponent
+        value={name}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setName(event.target.value)
+        }
+      />
       <button onClick={onClick}>Find</button>
       <div>User Details</div>
       <div>{user && user.name}</div>
