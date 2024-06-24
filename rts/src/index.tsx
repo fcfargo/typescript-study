@@ -1,9 +1,17 @@
 import { createRoot } from 'react-dom/client';
 
-import Parent from './props/Parent';
+import GuestList from './state/GuestList';
 
 const el = document.getElementById('root');
 
 const root = createRoot(el!);
 
-root.render(<Parent />);
+const App = () => {
+  return (
+    <div>
+      <GuestList />
+    </div>
+  );
+};
+
+root.render(<App />);
