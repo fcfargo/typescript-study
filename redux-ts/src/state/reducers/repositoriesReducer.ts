@@ -22,4 +22,5 @@ const reducer = (
       return state;
   }
 };
+
 export default reducer;
