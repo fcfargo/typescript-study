@@ -1,7 +1,7 @@
 import { ActionTypes } from '../action-types';
 import { Action } from '../actions';
 
-interface RepositoriesState {
+export interface RepositoriesState {
   loading: boolean;
   error: string | null;
   data: string[];
